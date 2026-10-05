@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#151916" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="data:," />
+  <title>Class Survey — Terminal Comfort</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      color-scheme: light dark;
+      --page: #f4f1ea;
+      --surface: #fffdf8;
+      --ink: #18211c;
+      --muted: #59635d;
+      --rule: #c9cec9;
+      --grid: rgba(24, 33, 28, 0.13);
+      --green: #176b4d;
+      --green-2: #3f9874;
+      --yellow: #e0ad3c;
+      --shadow: 0 20px 60px rgba(37, 47, 40, 0.10);
+      --chart-text: #344039;
+      --tooltip-bg: #18211c;
+      --tooltip-text: #fffdf8;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --page: #151916;
+        --surface: #1d231f;
+        --ink: #f4f2ea;
+        --muted: #b8c1bb;
+        --rule: #3a433d;
+        --grid: rgba(244, 242, 234, 0.12);
+        --green: #4fc397;
+        --green-2: #79d4b0;
+        --yellow: #efbc50;
+        --shadow: 0 20px 65px rgba(0, 0, 0, 0.28);
+        --chart-text: #d8ded9;
+        --tooltip-bg: #f4f2ea;
+        --tooltip-text: #151916;
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    html { background: var(--page); }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background:
+        linear-gradient(90deg, transparent 0, transparent calc(100% - 1px), var(--grid) calc(100% - 1px)) 0 0 / 80px 100%,
+        var(--page);
+      color: var(--ink);
+      font-family: "Source Sans 3", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: clamp(44px, 7vw, 88px) 0 50px;
+    }
+
+    .intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 32px;
+      margin-bottom: 30px;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--green);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 880px;
+      margin: 0;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: clamp(2.7rem, 6vw, 5.5rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 0.94;
+      text-wrap: balance;
+    }
+
+    .total {
+      min-width: 150px;
+      padding: 8px 0 9px 24px;
+      border-left: 1px solid var(--rule);
+    }
+
+    .total strong {
+      display: block;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 3.7rem;
+      line-height: 0.88;
+    }
+
+    .total span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .survey-panel {
+      position: relative;
+      overflow: hidden;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .survey-panel::before {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 7px;
+      background: var(--green);
+      content: "";
+    }
+
+    .panel-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(290px, 0.78fr);
+      min-height: 520px;
+    }
+
+    .chart-region {
+      min-width: 0;
+      padding: 42px 40px 34px 48px;
+      border-right: 1px solid var(--rule);
+    }
+
+    .chart-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .chart-heading h2 {
+      margin: 0;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 1.8rem;
+      line-height: 1;
+    }
+
+    .chart-heading span {
+      color: var(--muted);
+      font-size: 0.84rem;
+      white-space: nowrap;
+    }
+
+    .chart-wrap {
+      position: relative;
+      width: 100%;
+      height: 400px;
+    }
+
+    .fallback {
+      display: none;
+      margin: 30px 0 0;
+      color: var(--muted);
+    }
+
+    .breakdown {
+      display: flex;
+      flex-direction: column;
+      padding: 42px 34px 34px;
+    }
+
+    .breakdown h2 {
+      margin: 0 0 24px;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 1.8rem;
+      line-height: 1;
+    }
+
+    .response-list {
+      display: grid;
+      gap: 0;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .response {
+      display: grid;
+      grid-template-columns: 14px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: start;
+      padding: 18px 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    .swatch {
+      width: 12px;
+      height: 12px;
+      margin-top: 5px;
+      background: var(--swatch);
+    }
+
+    .label {
+      font-size: 0.97rem;
+      font-weight: 600;
+      line-height: 1.27;
+    }
+
+    .result {
+      text-align: right;
+    }
+
+    .result strong {
+      display: block;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 1.9rem;
+      line-height: 0.95;
+    }
+
+    .result span {
+      color: var(--muted);
+      font-size: 0.79rem;
+    }
+
+    .takeaway {
+      margin: auto 0 0;
+      padding-top: 28px;
+      color: var(--muted);
+      font-size: 0.97rem;
+      line-height: 1.5;
+    }
+
+    .takeaway strong { color: var(--ink); }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 18px;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    @media (max-width: 820px) {
+      main { width: min(100% - 28px, 680px); padding-top: 38px; }
+      .intro { grid-template-columns: 1fr; gap: 20px; }
+      .total { display: flex; align-items: baseline; gap: 10px; padding: 0; border: 0; }
+      .total strong { font-size: 2.5rem; }
+      .total span { margin: 0; }
+      .panel-grid { grid-template-columns: 1fr; }
+      .chart-region { padding: 32px 24px 20px 30px; border-right: 0; border-bottom: 1px solid var(--rule); }
+      .chart-wrap { height: 350px; }
+      .breakdown { padding: 30px 24px 28px 30px; }
+      .takeaway { margin-top: 26px; }
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: clamp(2.55rem, 13.5vw, 4rem); }
+      .chart-heading { display: block; }
+      .chart-heading span { display: block; margin-top: 7px; }
+      .chart-wrap { height: 370px; }
+      .chart-region { padding-right: 16px; padding-left: 23px; }
+      .breakdown { padding-right: 18px; padding-left: 23px; }
+      footer { display: block; }
+      footer span { display: block; margin-bottom: 4px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="intro">
+      <div>
+        <p class="eyebrow">Class survey · 53 responses</p>
+        <h1>How comfortable are you with the terminal / command line?</h1>
+      </div>
+      <div class="total" aria-label="53 students responded">
+        <strong>53</strong>
+        <span>students responded</span>
+      </div>
+    </header>
+
+    <section class="survey-panel" aria-label="Terminal comfort survey results">
+      <div class="panel-grid">
+        <div class="chart-region">
+          <div class="chart-heading">
+            <h2>Response distribution</h2>
+            <span>Students per answer</span>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="surveyChart" role="img" aria-label="Horizontal bar chart: 20 students are not at all comfortable, 27 are somewhat familiar, and 6 are very comfortable with the terminal or command line."></canvas>
+            <p class="fallback" id="chartFallback">The chart could not load, but the complete survey results are listed beside it.</p>
+          </div>
+        </div>
+
+        <aside class="breakdown" aria-labelledby="breakdown-title">
+          <h2 id="breakdown-title">Exact results</h2>
+          <ul class="response-list">
+            <li class="response">
+              <span class="swatch" style="--swatch: var(--yellow)" aria-hidden="true"></span>
+              <span class="label">Not at all <span aria-hidden="true">—</span><br><small>I click on things like a normal person</small></span>
+              <span class="result"><strong>20</strong><span>37.7%</span></span>
+            </li>
+            <li class="response">
+              <span class="swatch" style="--swatch: var(--green)" aria-hidden="true"></span>
+              <span class="label">Somewhat familiar <span aria-hidden="true">—</span><br><small>I can change directories and run simple commands</small></span>
+              <span class="result"><strong>27</strong><span>50.9%</span></span>
+            </li>
+            <li class="response">
+              <span class="swatch" style="--swatch: var(--green-2)" aria-hidden="true"></span>
+              <span class="label">Very comfortable <span aria-hidden="true">—</span><br><small>I'm basically Neo from The Matrix</small></span>
+              <span class="result"><strong>6</strong><span>11.3%</span></span>
+            </li>
+          </ul>
+          <p class="takeaway"><strong>Half the class is somewhat familiar.</strong> Another 38% are starting from the beginning, while 11% report high confidence.</p>
+        </aside>
+      </div>
+    </section>
+
+    <footer>
+      <span>Source: class survey responses provided</span>
+      <span>Percentages rounded to one decimal place</span>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script>
+    (function () {
+      var canvas = document.getElementById('surveyChart');
+      var fallback = document.getElementById('chartFallback');
+      if (!window.Chart) {
+        canvas.style.display = 'none';
+        fallback.style.display = 'block';
+        return;
+      }
+
+      function css(name) {
+        return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      }
+
+      var labels = [
+        ['Not at all'],
+        ['Somewhat', 'familiar'],
+        ['Very', 'comfortable']
+      ];
+
+      var chart = new Chart(canvas, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: [20, 27, 6],
+            backgroundColor: [css('--yellow'), css('--green'), css('--green-2')],
+            borderWidth: 0,
+            borderRadius: 0,
+            barPercentage: 0.62,
+            categoryPercentage: 0.78
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: {
+            duration: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 650
+          },
+          layout: { padding: { right: 18 } },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              displayColors: false,
+              backgroundColor: css('--tooltip-bg'),
+              titleColor: css('--tooltip-text'),
+              bodyColor: css('--tooltip-text'),
+              padding: 12,
+              callbacks: {
+                title: function (items) {
+                  return items[0].label.replace(',', ' ');
+                },
+                label: function (context) {
+                  var count = context.raw;
+                  return count + ' students · ' + (count / 53 * 100).toFixed(1) + '%';
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              suggestedMax: 30,
+              ticks: {
+                stepSize: 5,
+                color: css('--chart-text'),
+                font: { family: 'Source Sans 3', size: 12 }
+              },
+              grid: { color: css('--grid'), tickLength: 7 },
+              border: { display: false },
+              title: {
+                display: true,
+                text: 'NUMBER OF STUDENTS',
+                color: css('--chart-text'),
+                font: { family: 'Source Sans 3', size: 11, weight: '700' },
+                padding: { top: 12 }
+              }
+            },
+            y: {
+              ticks: {
+                color: css('--chart-text'),
+                font: { family: 'Source Sans 3', size: 13, weight: '600' },
+                padding: 10
+              },
+              grid: { display: false },
+              border: { display: false }
+            }
+          }
+        },
+        plugins: [{
+          id: 'valueLabels',
+          afterDatasetsDraw: function (activeChart) {
+            var ctx = activeChart.ctx;
+            var meta = activeChart.getDatasetMeta(0);
+            ctx.save();
+            ctx.fillStyle = css('--ink');
+            ctx.font = '700 14px "Source Sans 3", sans-serif';
+            ctx.textBaseline = 'middle';
+            meta.data.forEach(function (bar, index) {
+              ctx.fillText(String(activeChart.data.datasets[0].data[index]), bar.x + 8, bar.y);
+            });
+            ctx.restore();
+          }
+        }]
+      });
+
+      var media = window.matchMedia('(prefers-color-scheme: dark)');
+      function updateTheme() {
+        chart.data.datasets[0].backgroundColor = [css('--yellow'), css('--green'), css('--green-2')];
+        chart.options.scales.x.ticks.color = css('--chart-text');
+        chart.options.scales.x.grid.color = css('--grid');
+        chart.options.scales.x.title.color = css('--chart-text');
+        chart.options.scales.y.ticks.color = css('--chart-text');
+        chart.options.plugins.tooltip.backgroundColor = css('--tooltip-bg');
+        chart.options.plugins.tooltip.titleColor = css('--tooltip-text');
+        chart.options.plugins.tooltip.bodyColor = css('--tooltip-text');
+        chart.update('none');
+      }
+      if (media.addEventListener) media.addEventListener('change', updateTheme);
+      else if (media.addListener) media.addListener(updateTheme);
+    }());
+  </script>
+</body>
+</html>
