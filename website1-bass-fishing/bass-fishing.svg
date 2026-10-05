@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" role="img" aria-labelledby="title desc">
+  <title id="title">Largemouth bass illustration</title>
+  <desc id="desc">A stylized green bass swimming above plants in blue-green water.</desc>
+  <rect width="800" height="520" fill="#cfe2dc"/>
+  <path d="M0 360 C150 320 260 390 410 355 C555 322 660 350 800 310 V520 H0 Z" fill="#93b7a7"/>
+  <path d="M0 410 C160 375 270 440 440 405 C610 370 710 410 800 380 V520 H0 Z" fill="#628e79"/>
+  <path d="M175 320
+           C265 220 430 205 545 270
+           C585 292 615 327 625 351
+           C580 351 535 365 505 395
+           C395 432 270 400 195 340
+           C158 365 135 390 116 427
+           C111 374 125 335 175 320Z"
+        fill="#4f7f65" stroke="#17382c" stroke-width="10"/>
+  <path d="M225 315 C310 265 430 265 520 300" fill="none" stroke="#d7c88f" stroke-width="18" stroke-linecap="round"/>
+  <path d="M225 350 C320 390 420 388 505 340" fill="none" stroke="#355b49" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="523" cy="300" r="13" fill="#10271f"/>
+  <circle cx="527" cy="296" r="4" fill="#ffffff"/>
+  <path d="M570 334 Q622 325 657 345 Q620 370 570 362" fill="#17382c"/>
+  <path d="M180 305 Q115 245 78 250 Q95 307 157 335" fill="#355b49"/>
+  <path d="M345 242 Q375 175 435 170 Q423 231 392 258" fill="#355b49"/>
+  <path d="M332 401 Q355 458 412 468 Q400 413 370 392" fill="#355b49"/>
+  <g stroke="#345b49" stroke-width="10" stroke-linecap="round">
+    <path d="M80 520 Q88 430 70 360"/>
+    <path d="M125 520 Q128 438 158 386"/>
+    <path d="M690 520 Q680 435 704 365"/>
+    <path d="M735 520 Q730 450 760 400"/>
+  </g>
+  <g fill="#4f7f65">
+    <ellipse cx="72" cy="385" rx="22" ry="45" transform="rotate(-18 72 385)"/>
+    <ellipse cx="158" cy="410" rx="18" ry="40" transform="rotate(22 158 410)"/>
+    <ellipse cx="704" cy="392" rx="20" ry="45" transform="rotate(12 704 392)"/>
+    <ellipse cx="760" cy="430" rx="18" ry="38" transform="rotate(25 760 430)"/>
+  </g>
+  <g fill="#ffffff" opacity="0.55">
+    <circle cx="690" cy="88" r="9"/>
+    <circle cx="720" cy="130" r="6"/>
+    <circle cx="675" cy="155" r="5"/>
+    <circle cx="130" cy="95" r="7"/>
+  </g>
+</svg>
