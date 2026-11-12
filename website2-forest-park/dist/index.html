@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f3e7" />
+    <meta
+      name="description"
+      content="A little field guide to Forest Park, St. Louis. Discover fourteen favorite places and collect a day of your own, with weather-aware suggestions and no location sharing."
+    />
+    <meta property="og:title" content="A little day in Forest Park" />
+    <meta
+      property="og:description"
+      content="Fourteen lovely places. One unhurried adventure."
+    />
+    <meta property="og:image" content="assets/forest-hero.jpg" />
+    <title>Forest Park field notes — A little day outside</title>
+    <link rel="icon" href="assets/leaf.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js?v=weather-1" defer></script>
+    <link rel="stylesheet" href="cinema.css?v=2" />
+    <script src="cinema.js" defer></script>
+    <link rel="stylesheet" href="planner.css?v=2" />
+    <script type="module" src="planner.mjs?v=2"></script>
+  </head>
+  <body data-scene="morning">
+    <a class="skip" href="#explore">Skip to places</a>
+    <header class="nav-shell">
+      <nav aria-label="Main navigation">
+        <a class="brand" href="#home"
+          ><img src="assets/leaf.svg" alt="" width="28" height="28" /><span
+            >forest park<small>field notes</small></span
+          ></a
+        >
+        <div class="nav-links">
+          <a class="planner-nav" href="#planner">Plan a day</a>
+          <a href="#explore" aria-current="page">The places</a
+          ><a href="#day">Your little day <span id="nav-count">0</span></a>
+        </div>
+        <button
+          type="button"
+          id="motion"
+          class="icon-button"
+          aria-pressed="true"
+          aria-label="Pause decorative motion"
+        >
+          <img src="assets/wind.svg" alt="" width="22" height="22" />
+        </button>
+      </nav>
+    </header>
+    <main id="home">
+      <section class="hero" aria-labelledby="hero-title">
+        <img
+          class="hero-image is-active"
+          data-hero="morning"
+          src="assets/forest-hero.webp"
+          alt="Hand-painted interpretation of Forest Park’s Grand Basin, Art Hill and the art museum, surrounded by green trees and billowing clouds."
+          fetchpriority="high"
+        />
+        <img
+          class="hero-image"
+          data-hero="golden"
+          src="assets/hero-golden.webp"
+          loading="lazy"
+          alt="Painted sunset across Forest Park’s Grand Basin"
+          aria-hidden="true"
+        /><img
+          class="hero-image"
+          data-hero="dusk"
+          src="assets/hero-dusk.webp"
+          loading="lazy"
+          alt="Painted blue hour at Forest Park’s Grand Basin"
+          aria-hidden="true"
+        />
+        <div class="sky-stars" aria-hidden="true"></div>
+        <div class="scene-tint" aria-hidden="true"></div>
+        <div class="cloud cloud-one" aria-hidden="true"></div>
+        <div class="cloud cloud-two" aria-hidden="true"></div>
+        <div class="motes" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <div class="cinema-world" aria-hidden="true">
+          <div class="cinema-plane plane-distance">
+            <div class="plane-drift">
+              <div class="paint paint-distance"></div>
+            </div>
+          </div>
+          <div class="cinema-plane plane-cloud-a">
+            <div class="plane-drift">
+              <div class="paint paint-cloud-a"></div>
+            </div>
+          </div>
+          <div class="cinema-plane plane-cloud-b">
+            <div class="plane-drift">
+              <div class="paint paint-cloud-b"></div>
+            </div>
+          </div>
+          <div class="cinema-plane plane-leaves">
+            <div class="plane-drift">
+              <div class="paint paint-leaves"></div>
+            </div>
+          </div>
+          <div class="cinema-plane plane-birds">
+            <div class="plane-drift"><div class="paint paint-birds"></div></div>
+          </div>
+          <div class="cinema-plane plane-grass-a">
+            <div class="plane-drift">
+              <div class="paint paint-grass-a"></div>
+            </div>
+          </div>
+          <div class="cinema-plane plane-grass-b">
+            <div class="plane-drift">
+              <div class="paint paint-grass-b"></div>
+            </div>
+          </div>
+          <div class="cinema-plane plane-light">
+            <div class="plane-drift"><div class="paint paint-light"></div></div>
+          </div>
+          <div class="cinema-plane plane-seeds">
+            <div class="plane-drift"><div class="paint paint-seeds"></div></div>
+          </div>
+        </div>
+        <div class="hero-copy">
+          <p class="eyebrow">A love letter to St. Louis, Missouri</p>
+          <h1 id="hero-title" class="heading-1">
+            Some days are<br />made for<br /><span>getting a little lost.</span>
+          </h1>
+          <p class="body-3">
+            A pocketful of places. A slower kind of day.<br />Find your own
+            little adventure in Forest Park.
+          </p>
+          <a class="button primary button-md" href="#explore"
+            >Explore the park
+            <img
+              src="assets/arrow-right.svg"
+              alt=""
+              width="20"
+              height="20" /></a
+          ><a class="hero-plan-link" href="#planner">Plan with the forecast ↗</a
+          ><span class="hero-note caption-4"
+            >Fourteen real places, thoughtfully picked.</span
+          >
+        </div>
+        <div class="hero-bottom">
+          <span class="caption-4"
+            >38°38′ N &nbsp; 90°17′ W<br />One park. So many small
+            wonders.</span
+          >
+          <div
+            class="scene-picker"
+            role="group"
+            aria-label="Illustration lighting"
+          >
+            <span class="caption-4">Set the mood</span
+            ><button type="button" data-scene="morning" aria-pressed="true">
+              Morning</button
+            ><button type="button" data-scene="golden" aria-pressed="false">
+              Golden hour</button
+            ><button type="button" data-scene="dusk" aria-pressed="false">
+              Dusk
+            </button>
+          </div>
+        </div>
+        <span class="hero-credit caption-5"
+          >An artist’s impression, not a navigation map.</span
+        >
+      </section>
+      <div class="intro-strip">
+        <span
+          ><img src="assets/compass.svg" alt="" width="22" height="22" /> St.
+          Louis’ Forest Park</span
+        ><span>A little weather wisdom for your day</span
+        ><span>Leave a little room to wander</span>
+      </div>
+      <section
+        id="planner"
+        class="planner section-wrap"
+        aria-labelledby="planner-title"
+      >
+        <div class="planner-heading">
+          <div>
+            <p class="eyebrow">A LITTLE HELP FROM THE SKY</p>
+            <h2 id="planner-title" class="heading-2">
+              Make room for a lovely day.
+            </h2>
+          </div>
+          <p>
+            Fourteen familiar places. A forecast for your hours outside. Let’s
+            find a little day that feels like you.
+          </p>
+        </div>
+        <div class="planner-layout">
+          <form id="outing-form" class="outing-paper">
+            <div class="paper-heading">
+              <span class="eyebrow">YOUR HOURS, YOUR WAY</span
+              ><span aria-hidden="true">↗</span>
+            </div>
+            <div class="outing-fields">
+              <label for="outing-date"
+                >When?<select id="outing-date" name="date" required></select
+              ></label>
+              <label for="outing-hour"
+                >Start time<select
+                  id="outing-hour"
+                  name="hour"
+                  required
+                ></select
+              ></label>
+              <label for="outing-duration"
+                >Make time for<select id="outing-duration" name="duration">
+                  <option value="60">One hour</option>
+                  <option value="120" selected>Two hours</option>
+                  <option value="240">Half a day · 4 hours</option>
+                </select></label
+              >
+            </div>
+            <p class="field-note">
+              St. Louis time · Choose a day, a few hours and what you enjoy.
+            </p>
+            <fieldset class="interest-field">
+              <legend>
+                What sounds lovely? <span>Pick any, or leave it open.</span>
+              </legend>
+              <div class="interest-options">
+                <label
+                  ><input type="checkbox" name="interest" value="walk" /><span
+                    ><img src="assets/tree.svg" alt="" />A gentle walk</span
+                  ></label
+                >
+                <label
+                  ><input type="checkbox" name="interest" value="water" /><span
+                    ><img src="assets/waves.svg" alt="" />By the water</span
+                  ></label
+                >
+                <label
+                  ><input
+                    type="checkbox"
+                    name="interest"
+                    value="culture"
+                  /><span
+                    ><img src="assets/compass.svg" alt="" />Culture &amp;
+                    stories</span
+                  ></label
+                >
+                <label
+                  ><input type="checkbox" name="interest" value="sport" /><span
+                    ><img src="assets/wind.svg" alt="" />Sport &amp; play</span
+                  ></label
+                >
+                <label
+                  ><input type="checkbox" name="interest" value="family" /><span
+                    ><img src="assets/leaf.svg" alt="" />Family
+                    discoveries</span
+                  ></label
+                >
+              </div>
+            </fieldset>
+            <label class="compact-choice"
+              ><input id="compact-plan" type="checkbox" checked /><span
+                >Stay in one park area<small
+                  >Fewer transfers. Uncheck to explore more widely.</small
+                ></span
+              ></label
+            >
+            <button id="make-plan" type="submit" class="button primary">
+              Find my little day <span aria-hidden="true">→</span>
+            </button>
+            <p id="planner-form-message" class="field-note" role="status"></p>
+            <p
+              id="planner-storage"
+              class="field-note storage-note"
+              role="status"
+              hidden
+            ></p>
+          </form>
+          <aside
+            class="weather-paper"
+            aria-labelledby="weather-title"
+            aria-busy="true"
+            id="weather-panel"
+          >
+            <div class="paper-heading">
+              <span class="eyebrow">FOREST PARK FORECAST</span
+              ><span class="weather-mark" id="weather-mark" aria-hidden="true"
+                >☁</span
+              >
+            </div>
+            <h3 id="weather-title">A peek at the sky…</h3>
+            <p id="weather-status" role="status">
+              Fetching the park’s hourly forecast. You can still plan by
+              interest.
+            </p>
+            <div id="weather-facts" class="weather-facts"></div>
+            <p id="weather-advice" class="weather-advice"></p>
+            <div
+              id="weather-hours"
+              role="group"
+              class="weather-hours"
+              aria-label="Hourly forecast for your selected window"
+            ></div>
+            <button
+              id="better-window"
+              type="button"
+              class="text-button"
+              hidden
+            ></button>
+            <div class="weather-actions">
+              <button id="weather-retry" type="button" class="text-button">
+                Refresh forecast ↻</button
+              ><a
+                href="https://open-meteo.com/"
+                target="_blank"
+                rel="noreferrer"
+                >Weather by Open-Meteo ↗</a
+              >
+            </div>
+            <label class="follow-weather"
+              ><input id="follow-weather" type="checkbox" />Let this forecast
+              color the scenery</label
+            >
+            <p class="field-note">
+              Forecast-inspired art, not a live view.
+              <a href="#home">See the scenery ↑</a>
+            </p>
+          </aside>
+        </div>
+        <section
+          id="plan-result"
+          class="plan-result"
+          aria-labelledby="plan-title"
+          hidden
+        >
+          <div class="plan-result-heading">
+            <div>
+              <p class="eyebrow">A DAY TO MAKE YOUR OWN</p>
+              <h3 id="plan-title" tabindex="-1">Your little day</h3>
+            </div>
+            <span id="plan-summary" class="plan-summary"></span>
+          </div>
+          <p id="plan-context" class="field-note"></p>
+          <div id="plan-update" class="plan-update" hidden>
+            <p id="plan-update-message" role="status"></p>
+            <button type="submit" form="outing-form" class="button primary">
+              Update my suggestions
+            </button>
+          </div>
+          <p id="plan-notice" class="plan-notice" role="status"></p>
+          <p class="timeline-caption">
+            Suggested visit blocks · Confirm venue hours before you go.
+          </p>
+          <ol id="suggested-stops" class="suggested-stops"></ol>
+          <div id="plan-empty" class="plan-empty" hidden>
+            <h4>No little day fits just yet.</h4>
+            <p id="plan-empty-reason"></p>
+            <button id="broaden-plan" type="button" class="button secondary">
+              Try all interests
+            </button>
+          </div>
+          <div class="plan-actions">
+            <button id="save-plan" type="button" class="button primary">
+              Add these stops to my day +</button
+            ><button id="download-plan" type="button" class="button secondary">
+              Download this suggestion ↓</button
+            ><button id="reset-plan" type="button" class="text-button">
+              Restore suggestions</button
+            ><a href="#day">Edit my saved day →</a>
+          </div>
+          <details class="planning-rules">
+            <summary>How was this little day chosen?</summary>
+            <p>
+              We match your interests and visit budget, then favor indoor
+              options in wetter or colder weather and woodland shade in heat.
+              Wind, darkness and concerning forecast conditions lower outdoor
+              recommendations. Every stop keeps its original suggested visit
+              length. We reserve 20 minutes within a park area and 40 minutes
+              when changing areas. These are editorial planning allowances, not
+              measured walking times; actual travel may take longer. This is not
+              a walking route, booking service or opening-hours check. The Muny
+              stays in the guide, but is excluded from automatic plans because
+              performances need a confirmed schedule.
+            </p>
+          </details>
+        </section>
+        <noscript
+          ><p>
+            The interactive planner needs JavaScript. You can still read the
+            field notes below and follow the official park information link.
+          </p></noscript
+        >
+      </section>
+      <section id="explore" class="explore section-wrap">
+        <div class="section-top reveal">
+          <div>
+            <p class="eyebrow">01 / Follow your curiosity</p>
+            <h2 class="heading-2">Where shall we wander?</h2>
+          </div>
+          <p class="body-6">
+            By the water, beneath the trees, or on a hill with nothing on your
+            to do list. Pick a place that feels like you.
+          </p>
+        </div>
+        <div class="explore-controls">
+          <div class="filters" role="group" aria-label="Filter places">
+            <button
+              type="button"
+              data-filter="all"
+              class="selected"
+              aria-pressed="true"
+            >
+              All little escapes</button
+            ><button type="button" data-filter="water" aria-pressed="false">
+              <img src="assets/waves.svg" alt="" />By the water</button
+            ><button type="button" data-filter="woods" aria-pressed="false">
+              <img src="assets/tree.svg" alt="" />Under the trees</button
+            ><button type="button" data-filter="garden" aria-pressed="false">
+              <img src="assets/plant.svg" alt="" />In the garden</button
+            ><button type="button" data-filter="picnic" aria-pressed="false">
+              <img src="assets/basket.svg" alt="" />With a picnic
+            </button>
+            <button type="button" data-filter="sport" aria-pressed="false">
+              Sport &amp; play</button
+            ><button type="button" data-filter="culture" aria-pressed="false">
+              Culture &amp; stars</button
+            ><button type="button" data-filter="wildlife" aria-pressed="false">
+              Wildlife
+            </button>
+          </div>
+          <button type="button" id="surprise" class="text-button">
+            Choose for me ↗
+          </button>
+        </div>
+        <p id="result-count" role="status" class="caption-4">
+          Fourteen places to make a day your own.
+        </p>
+        <div id="places" class="places"></div>
+      </section>
+      <section class="pause-note section-wrap reveal">
+        <span class="little-leaf" aria-hidden="true"
+          ><img src="assets/leaf.svg" alt=""
+        /></span>
+        <p id="tagline" class="heading-3">
+          You don’t have to go far.<br />Just somewhere that lets you breathe.
+        </p>
+        <p class="caption-4">
+          A blanket. A book. A little time that belongs to you.
+        </p>
+      </section>
+      <section id="day" class="day-section section-wrap reveal">
+        <div class="day-intro">
+          <p class="eyebrow">02 / Your pocket itinerary</p>
+          <h2 class="heading-2">A day, made <br />of little things.</h2>
+          <p class="body-6">
+            Collect the places you’d like to visit. Arrange them in your own
+            order, then take your notes with you.
+          </p>
+          <div class="ticket">
+            <img src="assets/compass.svg" alt="" width="32" height="32" /><span
+              class="caption-4"
+              >ADMIT ONE UNHURRIED DAY</span
+            ><strong class="title-1">Forest Park, St. Louis</strong
+            ><span class="caption-5">No account. Just a little curiosity.</span>
+          </div>
+        </div>
+        <div class="day-paper">
+          <div class="day-paper-head">
+            <h3 class="heading-5">Your field notes</h3>
+            <span id="day-count" class="caption-4">0 places</span>
+          </div>
+          <ol id="itinerary"></ol>
+          <div id="day-empty">
+            <img
+              src="assets/bookmark-simple.svg"
+              alt=""
+              width="40"
+              height="40"
+            />
+            <h4 class="title-1">Every good day starts somewhere.</h4>
+            <p class="body-6">
+              Tap the bookmark on a place above.<br />We’ll keep it here for
+              your next little adventure.
+            </p>
+            <a href="#explore" class="text-button">Find your first stop ↑</a>
+          </div>
+          <div class="day-actions">
+            <button
+              type="button"
+              id="download"
+              class="button primary button-md"
+              disabled
+            >
+              Download my notes ↓</button
+            ><button type="button" id="clear" class="text-button" disabled>
+              Clear all
+            </button>
+          </div>
+          <p id="day-summary" class="caption-5">
+            Suggested pause times exclude travel between places.
+          </p>
+        </div>
+      </section>
+      <section id="guide" class="guide section-wrap reveal">
+        <div>
+          <p class="eyebrow">03 / Before you wander</p>
+          <h2 class="heading-3">A few field notes.</h2>
+          <p class="body-6">
+            An independent guide to real places.<br />A little preparation makes
+            room for a lovely day.
+          </p>
+        </div>
+        <div class="questions">
+          <details>
+            <summary>Are these real places?</summary>
+            <p>
+              Yes. All fourteen are in Forest Park, St. Louis. Location notes
+              are curated from Forest Park Forever and its official park guide.
+              The illustrations are artistic interpretations.
+            </p>
+          </details>
+          <details>
+            <summary>Does the page need my location?</summary>
+            <p>
+              No. Weather is requested for Forest Park’s fixed coordinates,
+              never your device location. The fourteen places are curated; no
+              map or place-search requests are needed.
+            </p>
+          </details>
+          <details>
+            <summary>Are the suggested times walking directions?</summary>
+            <p>
+              No. They are suggested time to spend at each stop, chosen for this
+              guide. Your list is not an optimized route and does not include
+              walking time between places.
+            </p>
+          </details>
+          <details>
+            <summary>Are the places open right now?</summary>
+            <p>
+              This is not a live availability service. Weather, repairs, events,
+              and seasonal conditions can affect access. Check the
+              <a
+                href="https://www.forestparkmap.org/alerts"
+                target="_blank"
+                rel="noreferrer"
+                >official park notices</a
+              >
+              before visiting. The Jewel Box interior may have separate hours
+              and admission.
+            </p>
+          </details>
+          <details>
+            <summary>What should I bring?</summary>
+            <p>
+              Water, comfortable shoes, and layers are a good start. A book or
+              picnic blanket is optional. Stay on designated paths, leave
+              wildlife undisturbed, and take everything you brought back home.
+            </p>
+          </details>
+          <details>
+            <summary>Will my field notes stay here?</summary>
+            <p>
+              Your selected places are saved in this browser when local storage
+              is available. Download a text copy to keep them elsewhere.
+              Clearing browser data removes your saved list.
+            </p>
+          </details>
+        </div>
+      </section>
+    </main>
+    <footer class="section-wrap">
+      <a class="brand" href="#home"
+        ><img src="assets/leaf.svg" alt="" width="28" height="28" /><span
+          >forest park<small>field notes</small></span
+        ></a
+      >
+      <p class="caption-4">
+        Made for the space between things.<br />Independent student project ·
+        Not an official park service.
+      </p>
+      <div>
+        <a
+          href="https://www.forestparkforever.org/"
+          target="_blank"
+          rel="noreferrer"
+          >Park information ↗</a
+        ><button type="button" class="text-button" id="privacy">
+          Privacy &amp; use
+        </button>
+      </div>
+    </footer>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <dialog id="place-dialog" aria-labelledby="detail-title">
+      <button
+        type="button"
+        class="dialog-close icon-button"
+        aria-label="Close place details"
+      >
+        <img src="assets/x.svg" width="24" height="24" alt="" />
+      </button>
+      <div id="detail-art"></div>
+      <div class="detail-content">
+        <p id="detail-kicker" class="eyebrow"></p>
+        <h2 id="detail-title" class="heading-3">Place details</h2>
+        <p id="detail-description" class="body-3"></p>
+        <dl id="detail-facts"></dl>
+        <div class="detail-invitation">
+          <span class="caption-3">A small invitation</span>
+          <p id="detail-invitation" class="body-3"></p>
+        </div>
+        <button type="button" id="detail-save" class="button primary button-md">
+          Add to my little day +</button
+        ><a
+          id="detail-source"
+          href="https://www.forestparkmap.org/"
+          class="text-button"
+          target="_blank"
+          rel="noreferrer"
+          >Official place notes ↗</a
+        >
+      </div>
+    </dialog>
+    <dialog id="privacy-dialog" aria-labelledby="privacy-title">
+      <button
+        type="button"
+        class="dialog-close icon-button"
+        aria-label="Close privacy information"
+      >
+        <img src="assets/x.svg" alt="" width="24" height="24" />
+      </button>
+      <div class="detail-content">
+        <h2 id="privacy-title" class="heading-3">A little privacy note.</h2>
+        <p class="body-3">
+          This guide requests a forecast from Open-Meteo for Forest Park’s fixed
+          coordinates. Your device location is never requested. The weather
+          provider and hosting may process ordinary connection information, such
+          as your IP address. There are no analytics, tracking cookies or
+          external fonts. Your itinerary, planning preferences, last saved
+          planning notes, weather cache and motion preference stay in this
+          browser when storage is available.
+        </p>
+        <p class="body-3">
+          External information links open only when you choose them. This
+          independent guide offers editorial suggestions, not current access
+          information or navigation instructions. Illustrations are original
+          artistic interpretations.
+        </p>
+        <button type="button" id="privacy-close" class="button primary">
+          Back to the park
+        </button>
+      </div>
+    </dialog>
+  </body>
+</html>

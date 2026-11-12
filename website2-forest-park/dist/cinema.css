@@ -1,0 +1,476 @@
+/* Visual enhancement layer. Existing content and application behavior stay intact. */
+:root {
+  --paper: #f7f0dc;
+  --ink: #1e2b22;
+  --muted: #3e653b;
+  --sage: #e1e6c9;
+  --line: #b7c9a1;
+  --sky: #7fb5d9;
+  --cloud: #fffdf5;
+  --grass: #6fa96f;
+  --forest: #2f4a32;
+  --earth: #8a6642;
+  --roof: #c05a3c;
+  --sun: #e9b44c;
+  --curve: cubic-bezier(0.22, 1, 0.36, 1);
+}
+body {
+  background: var(--paper);
+  color: var(--ink);
+}
+h1,
+h2,
+h3,
+h4 {
+  font-family: Manrope, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+nav,
+.scene-picker {
+  background: var(--paper);
+  backdrop-filter: none;
+  box-shadow: 0 8px 24px #2f4a321a;
+  border-color: #8a664226;
+}
+.primary {
+  background: var(--forest);
+  color: var(--cloud);
+}
+.hero-copy h1,
+.hero-copy > .body-3 {
+  color: var(--ink);
+}
+.hero-copy h1 span {
+  color: var(--forest);
+}
+.hero-note,
+.day-paper,
+dialog,
+.save-button {
+  background: var(--paper);
+}
+.intro-strip,
+.day-section,
+.detail-invitation {
+  background: var(--sage);
+}
+.place-card {
+  background: #eee7d2;
+}
+.scene-picker button[aria-pressed="true"],
+.save-button[aria-pressed="true"] {
+  background: #cad8b5;
+}
+.filters button.selected {
+  background: var(--forest);
+}
+:focus-visible {
+  outline: 3px solid var(--roof);
+  outline-offset: 4px;
+}
+button,
+a {
+  transition:
+    transform 0.5s var(--curve),
+    opacity 0.3s var(--curve);
+}
+.button:hover,
+button:hover:not(:disabled) {
+  transform: translateY(-3px) rotate(-0.5deg);
+  box-shadow: 0 8px 16px #8a664225;
+}
+button:active:not(:disabled),
+.button:active {
+  transform: translateY(0) scale(0.98);
+}
+.card-open:hover {
+  box-shadow: none;
+}
+.filters img,
+.save-button img {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+dialog::backdrop {
+  background: #1e2b2299;
+  backdrop-filter: none;
+}
+/* 2. Transparent foreground and atmospheric layers over the original poster. */
+.hero {
+  view-timeline-name: --hero-scene;
+  view-timeline-axis: block;
+}
+.hero-image {
+  animation: none;
+  transform: none;
+}
+.hero .cloud,
+.hero .motes,
+.sky-stars {
+  display: none;
+}
+.cinema-world {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.cinema-plane,
+.plane-drift,
+.paint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.cinema-plane {
+  transform: translate(var(--mx, 0px), var(--my, 0px));
+  transition: transform 0.8s var(--curve);
+}
+.paint {
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  transform-origin: bottom center;
+}
+.paint-distance {
+  background-image: url("assets/scenery/distance.svg");
+}
+.paint-cloud-a,
+.paint-cloud-b {
+  background-image: url("assets/scenery/clouds.svg?v=2");
+  animation: cloud-travel 90s var(--curve) infinite alternate;
+}
+.paint-cloud-b {
+  animation-duration: 120s;
+  animation-delay: -45s;
+  opacity: 0.45;
+  transform: translateX(35%);
+}
+.paint-leaves {
+  background-image: url("assets/scenery/leaves.svg?v=2");
+  transform-origin: 100% 0;
+  animation: canopy 14s var(--curve) infinite alternate;
+}
+.paint-birds {
+  background-image: url("assets/scenery/birds.svg");
+  animation: bird-passage 80s var(--curve) infinite;
+}
+.paint-grass-a,
+.paint-grass-b {
+  background-image: url("assets/scenery/grass.svg?v=2");
+  animation: meadow-wave 11s var(--curve) infinite alternate;
+}
+.paint-grass-b {
+  animation-delay: -5s;
+  animation-duration: 15s;
+  opacity: 0.5;
+  transform-origin: 30% 100%;
+}
+.paint-light {
+  background: #e9b44c;
+  mix-blend-mode: multiply;
+  animation: cloud-shadow 34s var(--curve) infinite alternate;
+}
+.paint-seeds::before,
+.paint-seeds::after {
+  content: "";
+  position: absolute;
+  left: 78%;
+  top: 65%;
+  width: 5px;
+  height: 5px;
+  border-radius: 70% 0;
+  background: var(--cloud);
+  animation: seed-flight 26s var(--curve) infinite;
+}
+.paint-seeds::after {
+  left: 38%;
+  top: 78%;
+  animation-delay: -13s;
+}
+@keyframes cloud-travel {
+  from {
+    transform: translateX(-18%);
+  }
+  to {
+    transform: translateX(32%);
+  }
+}
+@keyframes canopy {
+  from {
+    transform: rotate(-0.8deg);
+  }
+  to {
+    transform: rotate(1.2deg);
+  }
+}
+@keyframes meadow-wave {
+  from {
+    transform: skewX(-1.4deg) translateY(4px);
+  }
+  to {
+    transform: skewX(1.8deg) translateY(0);
+  }
+}
+@keyframes bird-passage {
+  0%,
+  72% {
+    opacity: 0;
+    transform: translate(-45%, 10px);
+  }
+  74% {
+    opacity: 0.55;
+  }
+  92% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(80%, -55px);
+  }
+}
+@keyframes cloud-shadow {
+  from {
+    opacity: 0.01;
+  }
+  to {
+    opacity: 0.09;
+  }
+}
+@keyframes seed-flight {
+  0% {
+    transform: translate(-30px, 40px) rotate(0);
+    opacity: 0;
+  }
+  20%,
+  75% {
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate(100px, -130px) rotate(150deg);
+    opacity: 0;
+  }
+}
+.hero-bottom,
+.hero-credit {
+  z-index: 2;
+}
+.hero-copy {
+  z-index: 1;
+}
+.hero::after {
+  z-index: 0;
+  pointer-events: none;
+}
+@supports (animation-timeline: view()) {
+  .plane-drift {
+    animation: scene-depth 1s var(--curve) both;
+    animation-timeline: --hero-scene;
+    animation-range: exit 0% exit 100%;
+  }
+  .plane-cloud-a {
+    --depth: 24px;
+  }
+  .plane-cloud-b {
+    --depth: 16px;
+  }
+  .plane-leaves {
+    --depth: 42px;
+  }
+  .plane-grass-a {
+    --depth: 64px;
+  }
+  .plane-grass-b {
+    --depth: 48px;
+  }
+  .plane-distance .plane-drift {
+    animation: none;
+  }
+  @keyframes scene-depth {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(var(--depth, 8px));
+    }
+  }
+}
+@media (max-width: 600px) {
+  .plane-distance,
+  .plane-cloud-b,
+  .plane-grass-b,
+  .plane-birds {
+    display: none;
+  }
+  .paint {
+    background-size: auto 100%;
+    background-position: center;
+  }
+  .paint-seeds::after {
+    display: none;
+  }
+  .cinema-plane {
+    transform: none !important;
+  }
+  .plane-drift {
+    animation: none !important;
+  }
+}
+/* 3. Paper surfaces and uniform picture windows throughout the guide. */
+.explore,
+.guide,
+.pause-note {
+  position: relative;
+}
+body {
+  background-image: url("assets/scenery/paper.svg");
+}
+.place-card {
+  border-radius: 16px 12px 16px 12px;
+  box-shadow: 0 4px 0 #8a66420d;
+}
+.place-card .place-art {
+  aspect-ratio: 1.8;
+}
+.place-painting {
+  animation-duration: 45s;
+}
+.card-copy p,
+.section-top > p,
+.day-intro p,
+.questions p {
+  color: var(--ink);
+}
+.card-meta,
+.caption-4 {
+  color: var(--muted);
+}
+.day-paper {
+  border: 1px solid #8a664226;
+  background-image: url("assets/scenery/paper.svg");
+  box-shadow: 8px 12px 0 #8a664212;
+}
+.ticket {
+  background: var(--paper);
+  border-color: var(--earth);
+}
+.questions details {
+  border: 1px solid #8a664226;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.questions summary::after {
+  color: var(--earth);
+}
+.toast {
+  background: var(--forest);
+  color: var(--cloud);
+  box-shadow: 0 8px 24px #2f4a3226;
+}
+.place-art {
+  background: var(--sage);
+}
+.scene-glints i {
+  box-shadow: none;
+  background: var(--cloud);
+}
+.scene-haze {
+  background: #e9b44c0d;
+}
+.scene-leaf {
+  background: var(--grass);
+}
+.scene-glints i {
+  animation-duration: 24s;
+}
+.scene-leaf {
+  animation-duration: 32s;
+}
+/* 4. Motion lifecycle and graceful degradation. */
+.hero.cinema-asleep .cinema-world *,
+.hero.cinema-asleep .cinema-world *::before,
+.hero.cinema-asleep .cinema-world *::after {
+  animation-play-state: paused !important;
+}
+body.motion-paused .cinema-plane {
+  transform: none !important;
+  transition: none;
+}
+body.motion-paused .plane-drift {
+  animation: none !important;
+}
+body[data-scene="dusk"] .paint-distance {
+  opacity: 0.25;
+}
+body[data-scene="dusk"] .paint-cloud-a,
+body[data-scene="dusk"] .paint-cloud-b {
+  opacity: 0.2;
+}
+body[data-scene="dusk"] .hero::after {
+  background: linear-gradient(90deg, #1e2b22d9, #2f4a3280 36%, transparent 70%);
+}
+body[data-scene="dusk"] .hero-copy,
+body[data-scene="dusk"] .hero-copy h1,
+body[data-scene="dusk"] .hero-copy h1 span,
+body[data-scene="dusk"] .hero-copy > .body-3 {
+  color: var(--cloud);
+}
+.hero::after {
+  background: linear-gradient(
+    90deg,
+    #f7f0dced 0%,
+    #f7f0dcc9 22%,
+    #f7f0dc47 47%,
+    transparent 70%
+  );
+}
+.reveal {
+  transition:
+    opacity 0.8s var(--curve),
+    transform 0.8s var(--curve);
+}
+button:disabled {
+  box-shadow: none;
+  transform: none;
+}
+@media (max-width: 600px) {
+  .hero::after {
+    background: linear-gradient(
+      180deg,
+      #f7f0dc70,
+      #f7f0dcb8 30%,
+      transparent 68%
+    );
+  }
+  .scene-glints i:nth-child(n + 3) {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .cinema-world {
+    display: none;
+  }
+  .hero-image {
+    transform: none !important;
+    animation: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .reveal.pending {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .word {
+    opacity: 1 !important;
+  }
+}
